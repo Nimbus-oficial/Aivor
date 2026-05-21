@@ -11,6 +11,7 @@ import {
   ShieldCheck,
   Sparkles
 } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
 import { Button } from "@orvex/ui";
 import { getAccountOverview } from "@orvex/sdk";
 
@@ -20,6 +21,14 @@ const activity = [
   { title: "Rendimento creditado", amount: "+US$ 12,84", date: "Hoje" },
   { title: "Deposito recebido", amount: "+US$ 800,00", date: "Ontem" },
   { title: "Saque concluido", amount: "-US$ 150,00", date: "12 mai" }
+];
+
+const navigationItems: Array<[string, LucideIcon]> = [
+  ["Conta", CreditCard],
+  ["Atividades", Bell],
+  ["Assistente", Bot],
+  ["Seguranca", ShieldCheck],
+  ["Ajustes", Settings]
 ];
 
 export default function HomePage() {
@@ -38,19 +47,13 @@ export default function HomePage() {
               </div>
             </div>
             <nav className="space-y-1">
-              {[
-                ["Conta", CreditCard],
-                ["Atividades", Bell],
-                ["Assistente", Bot],
-                ["Seguranca", ShieldCheck],
-                ["Ajustes", Settings]
-              ].map(([label, Icon]) => (
+              {navigationItems.map(([label, Icon]) => (
                 <button
                   className="flex w-full items-center gap-3 rounded-md px-3 py-2.5 text-left text-sm font-medium text-graphite transition hover:bg-mist hover:text-ink"
-                  key={label as string}
+                  key={label}
                 >
                   <Icon size={17} />
-                  {label as string}
+                  {label}
                 </button>
               ))}
             </nav>

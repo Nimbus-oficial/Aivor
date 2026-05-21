@@ -6,7 +6,7 @@
   "main": "./src/index.ts",
   "types": "./src/index.ts",
   "scripts": {
-    "build": "tsc --emitDeclarationOnly",
+    "build": "tsc --emitDeclarationOnly --declarationDir dist",
     "lint": "tsc --noEmit",
     "typecheck": "tsc --noEmit",
     "test": "echo \"No type tests yet\""

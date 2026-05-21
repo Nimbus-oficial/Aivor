@@ -6,13 +6,13 @@
   "main": "./src/index.ts",
   "types": "./src/index.ts",
   "scripts": {
-    "build": "tsc --emitDeclarationOnly",
+    "build": "tsc --emitDeclarationOnly --declarationDir dist",
     "lint": "tsc --noEmit",
     "typecheck": "tsc --noEmit",
     "test": "echo \"No SDK tests yet\""
   },
   "dependencies": {
-    "@orvex/types": "workspace:*"
+    "@orvex/types": "0.1.0"
   },
   "devDependencies": {
     "typescript": "^5.5.4"
