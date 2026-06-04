@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Orvex",
+  title: "Aivor",
   description: "Conta rendimento em USDC com experiencia de banco digital."
 };
 
