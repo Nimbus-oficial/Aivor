@@ -1,0 +1,15 @@
+# Indice - Juridico
+
+- [[Jurídico]]
+- [[Jurídico Geral]]
+- [[Estrutura Jurídica]]
+- [[Classificação do Produto]]
+- [[Avisos de Risco]]
+- [[Isenção de Responsabilidade]]
+- [[Jurisdições]]
+- [[Licenciamento]]
+- [[Política de Privacidade]]
+- [[Propriedade Intelectual]]
+- [[Restrições Operacionais]]
+- [[Termos de uso]]
+- [[Termos Operacionais]]
