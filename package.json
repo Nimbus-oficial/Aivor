@@ -1,5 +1,5 @@
 {
-  "name": "orvex",
+  "name": "aivor",
   "version": "0.1.0",
   "private": true,
   "packageManager": "npm@10.8.2",
@@ -16,6 +16,7 @@
     "format": "prettier --write ."
   },
   "devDependencies": {
+    "@openzeppelin/contracts": "^5.2.0",
     "prettier": "^3.3.3",
     "turbo": "^2.0.14",
     "typescript": "^5.5.4"
