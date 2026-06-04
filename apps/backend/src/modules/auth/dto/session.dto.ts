@@ -10,3 +10,14 @@ export interface CreateSessionDto {
 export interface RevokeSessionDto {
   sessionHash: string;
 }
+
+export interface PrivyLoginDto {
+  accessToken: string;
+  identityToken?: string;
+  walletAddress?: string;
+  chainId?: number;
+}
+
+export interface PrivyLogoutDto {
+  sessionToken: string;
+}

@@ -1,82 +1,90 @@
-# Segurança Técnica
+# Seguranca Tecnica
 
 ## Objetivo
 
-Definir os princípios de segurança adotados pela Aivor.
+Definir os principios de seguranca adotados pela Aivor.
 
 Relaciona-se com:
 
-- [[Permissões]]
-    
-- [[Gestão de Chaves]]
-    
-- [[Modelo de Ameaças]]
-    
+- [[Permissoes]]
+- [[Gestao de Chaves]]
+- [[Modelo de Ameacas]]
 - [[Resposta a Incidentes]]
-    
 - [[Emergency Pause]]
-    
 
 ---
 
-## Princípios
+## Principios
 
-A segurança da Aivor deve priorizar:
+A seguranca da Aivor deve priorizar:
 
-- proteção patrimonial
-    
-- menor privilégio possível
-    
-- auditabilidade
-    
-- rastreabilidade
-    
-- resiliência operacional
-    
+- protecao patrimonial;
+- menor privilegio possivel;
+- auditabilidade;
+- rastreabilidade;
+- resiliencia operacional.
 
 ---
 
-## Camadas de Segurança
+## Camadas de Seguranca
 
 ### Smart Contracts
 
-Proteção do patrimônio.
-
----
+Protecao do patrimonio.
 
 ### Infraestrutura
 
-Proteção dos sistemas operacionais.
+Protecao dos sistemas operacionais.
 
----
+### Governanca
 
-### Governança
+Protecao contra acoes indevidas.
 
-Proteção contra ações indevidas.
+### Operacao
 
----
-
-### Operação
-
-Proteção contra falhas humanas.
+Protecao contra falhas humanas.
 
 ---
 
 ## Diretrizes
 
-Toda funcionalidade crítica deve possuir:
+Toda funcionalidade critica deve possuir:
 
-- validação
-    
-- monitoramento
-    
-- auditoria
-    
-- mecanismos de recuperação
-    
+- validacao;
+- monitoramento;
+- auditoria;
+- mecanismos de recuperacao.
+
+---
+
+## Autenticacao Sem Custodia
+
+A autenticacao real usa Privy como provedor de identidade.
+
+O backend pode:
+
+- validar tokens Privy;
+- criar sessoes operacionais;
+- vincular wallets verificadas a usuarios;
+- aplicar permissoes operacionais;
+- registrar auditoria.
+
+O backend nao pode:
+
+- armazenar chaves privadas;
+- armazenar tokens Privy brutos;
+- assinar transacoes;
+- mover fundos;
+- alterar saldo ou patrimonio de usuarios.
+
+Sessoes da Aivor devem ser armazenadas como hash.
+
+Rotas administrativas de escrita exigem papel `operator` ou `admin`.
+
+Governanca Safe + Timelock continua necessaria para acoes criticas on-chain.
 
 ---
 
 ## Objetivo Final
 
-Reduzir riscos técnicos, operacionais e financeiros.
+Reduzir riscos tecnicos, operacionais e financeiros.

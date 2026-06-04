@@ -1,5 +1,6 @@
-import { Body, Controller, Get, Post } from "@nestjs/common";
+import { Body, Controller, Get, Post, UseGuards } from "@nestjs/common";
 import { ok } from "../../common/responses/api-response";
+import { Roles, RolesGuard } from "../auth/roles.guard";
 import type {
   CreateAdminRecordDto,
   CreateAuditLogDto,
@@ -25,30 +26,40 @@ export class OperationsController {
   }
 
   @Post("settings")
+  @UseGuards(RolesGuard)
+  @Roles("operator", "admin")
   async upsertSetting(@Body() body: UpsertOperationalSettingDto) {
     const setting = await this.operationsService.upsertOperationalSetting(body);
     return ok(setting, "database");
   }
 
   @Post("events")
+  @UseGuards(RolesGuard)
+  @Roles("operator", "admin")
   async createEvent(@Body() body: CreateEventDto) {
     const event = await this.operationsService.createEvent(body);
     return ok(event, "database");
   }
 
   @Post("audit-logs")
+  @UseGuards(RolesGuard)
+  @Roles("operator", "admin")
   async createAuditLog(@Body() body: CreateAuditLogDto) {
     const auditLog = await this.operationsService.createAuditLog(body);
     return ok(auditLog, "database");
   }
 
   @Post("admin-records")
+  @UseGuards(RolesGuard)
+  @Roles("operator", "admin")
   async createAdminRecord(@Body() body: CreateAdminRecordDto) {
     const record = await this.operationsService.createAdminRecord(body);
     return ok(record, "database");
   }
 
   @Post("position-snapshots")
+  @UseGuards(RolesGuard)
+  @Roles("operator", "admin")
   async createPositionSnapshot(@Body() body: CreatePositionSnapshotDto) {
     const snapshot = await this.operationsService.createPositionSnapshot(body);
     return ok(snapshot, "database");

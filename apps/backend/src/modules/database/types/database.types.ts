@@ -16,6 +16,7 @@ export type EventCategory =
   | "system";
 
 export type RecordResult = "success" | "failure" | "pending";
+export type UserRole = "user" | "operator" | "admin";
 
 export interface AuditLogInput {
   actorUserId?: string | null;

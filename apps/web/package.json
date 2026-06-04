@@ -12,6 +12,7 @@
     "@orvex/sdk": "0.1.0",
     "@orvex/types": "0.1.0",
     "@orvex/ui": "0.1.0",
+    "@privy-io/react-auth": "^3.29.1",
     "clsx": "^2.1.1",
     "framer-motion": "^11.3.24",
     "lucide-react": "^0.468.0",

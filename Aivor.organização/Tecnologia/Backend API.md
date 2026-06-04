@@ -57,14 +57,24 @@ O backend nao deve:
 ### Auth Operacional
 
 - `GET /auth/providers`
+- `POST /auth/login`
+- `POST /auth/logout`
+- `GET /auth/session`
+- `GET /auth/me`
 - `POST /auth/sessions`
 - `POST /auth/sessions/revoke`
 
 Observacao:
 
-Esses endpoints preparam persistencia de sessoes.
+`POST /auth/login` valida o access token do Privy, cria ou atualiza o usuario operacional, vincula carteiras verificadas quando disponiveis e cria uma sessao propria da Aivor.
 
-Privy ainda nao foi implementado.
+`POST /auth/logout` revoga a sessao da Aivor. A sessao e armazenada como hash no banco.
+
+`GET /auth/session` e `GET /auth/me` usam `Authorization: Bearer <sessionToken>`.
+
+Os endpoints legados `POST /auth/sessions` e `POST /auth/sessions/revoke` permanecem para compatibilidade operacional interna e nao substituem o fluxo Privy.
+
+O backend nao armazena chaves privadas, nao assina transacoes e nao usa o banco como fonte final de patrimonio.
 
 ---
 
@@ -121,6 +131,10 @@ Eles nao usam chave privada, nao assinam transacoes e nao movem fundos.
 - `POST /operations/admin-records`
 - `POST /operations/position-snapshots`
 
+As rotas `POST /operations/*` exigem sessao autenticada e papel `operator` ou `admin`.
+
+Essa autorizacao e operacional. Governanca Safe + Timelock permanece como camada critica futura para execucao administrativa on-chain.
+
 ---
 
 ### Health Checks
@@ -160,6 +174,22 @@ Politicas oficiais conectadas:
 - multisig: Safe 2-of-4;
 - ativos suportados: USDC e EURC;
 - protocolo inicial: Morpho.
+
+---
+
+## Variaveis de Ambiente de Autenticacao
+
+- `PRIVY_APP_ID`
+- `PRIVY_APP_SECRET`
+- `PRIVY_VERIFICATION_KEY`
+- `PRIVY_JWKS_URL`
+- `PRIVY_API_URL` opcional, padrao `https://api.privy.io`
+
+`PRIVY_JWKS_URL` e o modo recomendado para validar access tokens com suporte a rotacao de chaves.
+
+`PRIVY_VERIFICATION_KEY` permanece como fallback opcional para validacao local direta.
+
+`PRIVY_APP_SECRET` deve permanecer apenas no backend.
 
 ---
 
