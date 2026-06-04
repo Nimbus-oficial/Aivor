@@ -7,19 +7,23 @@
     "build": "nest build",
     "lint": "tsc --noEmit",
     "typecheck": "tsc --noEmit",
-    "test": "echo \"Backend tests pending\""
+    "db:migrate": "node scripts/migrate.js",
+    "db:validate": "node scripts/validate-database-roundtrip.js",
+    "test": "node scripts/validate-database-schema.js"
   },
   "dependencies": {
     "@nestjs/common": "^11.1.21",
     "@nestjs/config": "^4.0.4",
     "@nestjs/core": "^11.1.21",
     "@nestjs/platform-express": "^11.1.21",
+    "pg": "^8.21.0",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.1"
   },
   "devDependencies": {
     "@nestjs/cli": "^11.0.21",
     "@types/node": "^20.14.12",
+    "@types/pg": "^8.20.0",
     "typescript": "^5.5.4"
   }
 }

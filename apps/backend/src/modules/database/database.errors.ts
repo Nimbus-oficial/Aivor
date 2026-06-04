@@ -1,0 +1,13 @@
+export class DatabaseConfigurationError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = "DatabaseConfigurationError";
+  }
+}
+
+export class DatabaseValidationError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = "DatabaseValidationError";
+  }
+}
