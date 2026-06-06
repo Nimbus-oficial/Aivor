@@ -6,6 +6,7 @@ import "../src/OrvexVault.sol";
 
 interface Vm {
     function warp(uint256 newTimestamp) external;
+    function prank(address msgSender) external;
 }
 
 contract MockUSDC {
@@ -45,6 +46,12 @@ contract MockUSDC {
 contract MockMorphoAllocator {
     MockUSDC public immutable usdc;
     uint256 public managedAssets;
+    bytes32 public marketId = bytes32(uint256(1));
+    bool public marketEnabled = true;
+    bool public healthy = true;
+    uint256 public currentApyBps = 420;
+    uint256 public utilizationBps = 6_000;
+    uint256 public riskScoreBps = 2_000;
 
     constructor(MockUSDC usdc_) {
         usdc = usdc_;
@@ -65,9 +72,40 @@ contract MockMorphoAllocator {
         return managedAssets;
     }
 
+    function liquidAssets() external view returns (uint256) {
+        return usdc.balanceOf(address(this));
+    }
+
+    function isMarketEnabled() external view returns (bool) {
+        return marketEnabled;
+    }
+
+    function isHealthy() external view returns (bool) {
+        return healthy;
+    }
+
     function addYield(uint256 assets) external {
         usdc.mint(address(this), assets);
         managedAssets += assets;
+    }
+
+    function simulateLoss(uint256 assets) external {
+        uint256 loss = assets <= managedAssets ? assets : managedAssets;
+        managedAssets -= loss;
+    }
+
+    function setMarketEnabled(bool enabled) external {
+        marketEnabled = enabled;
+    }
+
+    function setHealthy(bool nextHealthy) external {
+        healthy = nextHealthy;
+    }
+
+    function setRiskMetrics(uint256 nextApyBps, uint256 nextUtilizationBps, uint256 nextRiskScoreBps) external {
+        currentApyBps = nextApyBps;
+        utilizationBps = nextUtilizationBps;
+        riskScoreBps = nextRiskScoreBps;
     }
 }
 
@@ -90,17 +128,18 @@ contract OrvexVaultTest {
     OrvexVault private vault;
 
     address private constant TREASURY = address(0x1001);
+    address private constant VALIDATION_WALLET = address(0x2002);
     bytes32 private constant SALT = bytes32(uint256(123));
 
     constructor() {
         usdc = new MockUSDC();
         allocator = new MockMorphoAllocator(usdc);
         controller = new OrvexController(address(this), 1 days);
-        vault = new OrvexVault(address(usdc), address(allocator), TREASURY, address(controller));
+        vault = new OrvexVault(address(usdc), address(allocator), TREASURY, address(controller), false, address(0), 0);
     }
 
     function testMetadataUsesYieldBearingShareToken() external view {
-        require(keccak256(bytes(vault.name())) == keccak256(bytes("Orvex Yield USDC")), "NAME");
+        require(keccak256(bytes(vault.name())) == keccak256(bytes("Aivor Yield USDC")), "NAME");
         require(keccak256(bytes(vault.symbol())) == keccak256(bytes("ovUSDC")), "SYMBOL");
         require(vault.decimals() == 6, "DECIMALS");
         require(vault.asset() == address(usdc), "ASSET");
@@ -112,6 +151,93 @@ contract OrvexVaultTest {
         require(vault.balanceOf(address(this)) == 1_000e6, "SHARES");
         require(usdc.balanceOf(address(vault)) == 50e6, "LIQUID");
         require(allocator.managedAssets() == 950e6, "ALLOCATED");
+    }
+
+    function testAllocatorStatusReportsControlledMorphoReadOnlyData() external view {
+        (
+            bytes32 marketId,
+            bool marketEnabled,
+            bool healthy,
+            uint256 managedAssets,
+            uint256 liquidAssets,
+            uint256 currentApyBps,
+            uint256 utilizationBps,
+            uint256 riskScoreBps
+        ) = vault.allocatorStatus();
+
+        require(marketId == bytes32(uint256(1)), "MARKET_ID");
+        require(marketEnabled, "MARKET_DISABLED");
+        require(healthy, "UNHEALTHY");
+        require(managedAssets == 0, "MANAGED");
+        require(liquidAssets == 0, "LIQUID");
+        require(currentApyBps == 420, "APY");
+        require(utilizationBps == 6_000, "UTILIZATION");
+        require(riskScoreBps == 2_000, "RISK");
+    }
+
+    function testDepositDoesNotAllocateWhenAllocatorUnhealthy() external {
+        allocator.setHealthy(false);
+
+        _deposit(address(this), 1_000e6);
+
+        require(usdc.balanceOf(address(vault)) == 1_000e6, "LIQUID");
+        require(allocator.managedAssets() == 0, "ALLOCATED");
+    }
+
+    function testDepositDoesNotAllocateWhenMarketDisabled() external {
+        allocator.setMarketEnabled(false);
+
+        _deposit(address(this), 1_000e6);
+
+        require(usdc.balanceOf(address(vault)) == 1_000e6, "LIQUID");
+        require(allocator.managedAssets() == 0, "ALLOCATED");
+    }
+
+    function testWithdrawUsesAllocatorLiquidityWhenIdleIsInsufficient() external {
+        _deposit(address(this), 1_000e6);
+
+        uint256 sharesBurned = vault.withdraw(400e6, address(this), address(this));
+
+        require(sharesBurned == 400e6, "SHARES_BURNED");
+        require(usdc.balanceOf(address(this)) == 400e6, "USER_ASSETS");
+        require(vault.totalAssets() == 600e6, "TOTAL_ASSETS");
+        require(vault.totalSupply() == 600e6, "TOTAL_SUPPLY");
+    }
+
+    function testWithdrawFailsWhenAllocatorUnhealthyAndIdleIsInsufficient() external {
+        _deposit(address(this), 1_000e6);
+        allocator.setHealthy(false);
+
+        (bool success,) = address(vault).call(abi.encodeCall(vault.withdraw, (400e6, address(this), address(this))));
+
+        require(!success, "WITHDRAW_WITH_UNHEALTHY_ALLOCATOR");
+    }
+
+    function testScenarioWithoutYieldKeepsSharePriceFlat() external {
+        _deposit(address(this), 1_000e6);
+
+        require(vault.totalAssets() == 1_000e6, "TOTAL_ASSETS");
+        require(vault.sharePrice() == 1e6, "SHARE_PRICE");
+    }
+
+    function testScenarioWithSimulatedYieldIncreasesAccounting() external {
+        _deposit(address(this), 1_000e6);
+
+        allocator.addYield(50e6);
+
+        require(vault.totalAssets() == 1_050e6, "TOTAL_ASSETS");
+        require(vault.sharePrice() == 1_050_000, "SHARE_PRICE");
+        require(vault.convertToAssets(vault.balanceOf(address(this))) == 1_050e6, "ASSET_VALUE");
+    }
+
+    function testScenarioWithSimulatedLossReducesSharePrice() external {
+        _deposit(address(this), 1_000e6);
+
+        allocator.simulateLoss(100e6);
+
+        require(vault.totalAssets() == 900e6, "TOTAL_ASSETS");
+        require(vault.sharePrice() == 900_000, "SHARE_PRICE");
+        require(vault.convertToAssets(vault.balanceOf(address(this))) == 900e6, "ASSET_VALUE");
     }
 
     function testMultipleDepositsKeepShareAccounting() external {
@@ -283,6 +409,63 @@ contract OrvexVaultTest {
             abi.encodeCall(controller.executeStrategyConfig, (secondMarket, 4_000, true, secondSalt))
         );
         require(!success, "OVER_ALLOCATED");
+    }
+
+    function testIdleOnlyPrivateValidationAllowsOnlyValidationWallet() external {
+        OrvexVault idleVault =
+            new OrvexVault(address(usdc), address(0), TREASURY, address(controller), true, VALIDATION_WALLET, 100e6);
+
+        usdc.mint(VALIDATION_WALLET, 50e6);
+        vm.prank(VALIDATION_WALLET);
+        usdc.approve(address(idleVault), 50e6);
+        vm.prank(VALIDATION_WALLET);
+        uint256 shares = idleVault.deposit(50e6, VALIDATION_WALLET);
+
+        require(shares == 50e6, "SHARES");
+        require(idleVault.totalAssets() == 50e6, "TOTAL_ASSETS");
+        require(idleVault.maxDeposit(VALIDATION_WALLET) == 50e6, "REMAINING_CAP");
+        require(idleVault.maxDeposit(address(this)) == 0, "PUBLIC_DEPOSIT_OPEN");
+    }
+
+    function testIdleOnlyPrivateValidationRejectsThirdPartyDeposit() external {
+        OrvexVault idleVault =
+            new OrvexVault(address(usdc), address(0), TREASURY, address(controller), true, VALIDATION_WALLET, 100e6);
+
+        usdc.mint(address(this), 1e6);
+        usdc.approve(address(idleVault), 1e6);
+        (bool success,) = address(idleVault).call(abi.encodeCall(idleVault.deposit, (1e6, address(this))));
+
+        require(!success, "THIRD_PARTY_DEPOSIT_ACCEPTED");
+    }
+
+    function testIdleOnlyPrivateValidationRejectsCapExceeded() external {
+        OrvexVault idleVault =
+            new OrvexVault(address(usdc), address(0), TREASURY, address(controller), true, VALIDATION_WALLET, 100e6);
+
+        usdc.mint(VALIDATION_WALLET, 101e6);
+        vm.prank(VALIDATION_WALLET);
+        usdc.approve(address(idleVault), 101e6);
+        vm.prank(VALIDATION_WALLET);
+        (bool success,) = address(idleVault).call(abi.encodeCall(idleVault.deposit, (101e6, VALIDATION_WALLET)));
+
+        require(!success, "CAP_EXCEEDED");
+    }
+
+    function testIdleOnlyCanWithdrawWithoutAllocator() external {
+        OrvexVault idleVault =
+            new OrvexVault(address(usdc), address(0), TREASURY, address(controller), true, VALIDATION_WALLET, 100e6);
+
+        usdc.mint(VALIDATION_WALLET, 10e6);
+        vm.prank(VALIDATION_WALLET);
+        usdc.approve(address(idleVault), 10e6);
+        vm.prank(VALIDATION_WALLET);
+        idleVault.deposit(10e6, VALIDATION_WALLET);
+        vm.prank(VALIDATION_WALLET);
+        uint256 sharesBurned = idleVault.withdraw(10e6, VALIDATION_WALLET, VALIDATION_WALLET);
+
+        require(sharesBurned == 10e6, "SHARES_BURNED");
+        require(idleVault.totalAssets() == 0, "ASSETS_LEFT");
+        require(idleVault.balanceOf(VALIDATION_WALLET) == 0, "SHARES_LEFT");
     }
 
     function _deposit(address receiver, uint256 assets) internal returns (uint256 shares) {

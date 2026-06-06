@@ -14,6 +14,6 @@ contract DeployOrvex {
     ) external returns (OrvexVault vault, OrvexController controller, OrvexTreasury treasury) {
         controller = new OrvexController(multisig, 2 days);
         treasury = new OrvexTreasury(treasuryWallet);
-        vault = new OrvexVault(usdc, morphoAllocator, address(treasury), address(controller));
+        vault = new OrvexVault(usdc, morphoAllocator, address(treasury), address(controller), false, address(0), 0);
     }
 }
