@@ -1,67 +1,105 @@
-# Gestão de Risco
+# Gestao de Risco
 
 ## Objetivo
 
-Definir a política de gestão de risco da Aivor.
+Definir a estrutura de gestao de risco da Aivor.
+
+A politica oficial detalhada esta em:
+
+- [[Politica de Risco]]
 
 Relaciona-se com:
 
 - [[Liquidez]]
-    
-- [[Estratégia de Alocação]]
-    
+- [[Politica de Liquidez]]
+- [[Parametros Operacionais]]
+- [[Estrategia de Alocacao]]
 - [[Emergency Pause]]
-    
+- [[Aivor V1 Modular Completa]]
 
 ---
 
-## Princípios
+## Principios
 
-A proteção patrimonial possui prioridade sobre a busca por rendimento.
+A protecao patrimonial possui prioridade sobre a busca por rendimento.
+
+Aivor V1 e modular, mas a ativacao operacional e progressiva por risco.
+
+Nenhum modulo deve receber capital real apenas por estar documentado ou implementado.
 
 ---
 
 ## Riscos Monitorados
 
-### Smart Contracts
+### Ativos
 
-Falhas ou vulnerabilidades.
-
----
+- USDC;
+- EURC.
 
 ### Protocolos
 
-Problemas operacionais ou financeiros.
+- Morpho;
+- Aave;
+- Uniswap;
+- Aerodrome.
+
+### Estrategias
+
+- lending;
+- liquidez;
+- looping;
+- leverage;
+- estrategias automaticas.
+
+### Infraestrutura
+
+- RPC;
+- banco de dados;
+- indexacao;
+- Safe;
+- Timelock;
+- painel admin;
+- observabilidade.
 
 ---
 
-### Liquidez
+## Mitigacoes
 
-Capacidade de atender resgates.
+- limites por ativo;
+- limites por protocolo;
+- limites por mercado;
+- limites por estrategia;
+- liquidez minima;
+- circuit breakers;
+- auditoria;
+- governanca;
+- Safe 2-of-4;
+- Timelock;
+- emergency pause;
+- monitoramento continuo;
+- runbooks.
 
 ---
 
-### Governança
+## Circuit Breakers
 
-Erros ou abusos de permissão.
+Os circuit breakers oficiais estao definidos em:
 
----
+- [[Politica de Risco]]
 
-## Mitigações
+Eles cobrem:
 
-- diversificação
-    
-- liquidez mínima
-    
-- monitoramento
-    
-- auditoria
-    
-- mecanismos de emergência
-    
+- queda brusca de liquidez;
+- APY anormal;
+- falha de protocolo;
+- erro de oracle;
+- risco de liquidacao;
+- divergencia banco vs on-chain;
+- falha de RPC;
+- falha de Safe ou Timelock.
 
 ---
 
 ## Objetivo Final
 
-Preservar o patrimônio dos usuários e garantir continuidade operacional.
+Preservar o patrimonio dos usuarios, proteger a continuidade operacional e impedir que estrategias avancadas sejam ativadas sem maturidade, auditoria e governanca.

@@ -1,25 +1,20 @@
-# Parâmetros Operacionais
+# Parametros Operacionais
 
 ## Objetivo
 
-Definir os limites, métricas e regras utilizadas pela Aivor para proteger o patrimônio dos usuários e garantir estabilidade operacional.
+Definir os limites, metricas e regras utilizadas pela Aivor para proteger o patrimonio dos usuarios e garantir estabilidade operacional.
 
 Relaciona-se com:
 
-- [[Operação Geral]]
-    
+- [[Operacao Geral]]
 - [[Liquidez]]
-    
-- [[Gestão de Risco]]
-    
-- [[Estratégia de Alocação]]
-    
+- [[Politica de Liquidez]]
+- [[Politica de Risco]]
+- [[Gestao de Risco]]
+- [[Estrategia de Alocacao]]
 - [[Tesouraria]]
-    
 - [[Multisig]]
-    
 - [[Timelock]]
-    
 
 ---
 
@@ -27,145 +22,172 @@ Relaciona-se com:
 
 ### Faixas Oficiais
 
-Liquidez mínima:
+Liquidez minima:
 
 - 2%
-    
 
 Liquidez alvo:
 
 - 5%
-    
 
-Liquidez máxima:
+Liquidez maxima:
 
 - 7%
-    
-
----
 
 ### Abaixo de 2%
 
-Situação crítica.
+Situacao critica.
 
-Ações prioritárias:
+Acoes prioritarias:
 
-- interromper novas alocações
-    
-- recompor liquidez
-    
-- avaliar resgate de posições
-    
-
----
+- interromper novas alocacoes;
+- recompor liquidez;
+- avaliar resgate de posicoes;
+- acionar alerta no Painel Admin;
+- avaliar emergency pause se houver risco de continuidade operacional.
 
 ### Entre 2% e 5%
 
-Operação normal.
+Faixa de atencao.
 
-Permite atendimento de depósitos e saques sem ações extraordinárias.
+Permite operacao, mas novas alocacoes devem ser conservadoras.
 
----
+Rebalanceamento deve priorizar retorno para a faixa alvo.
+
+### Em torno de 5%
+
+Faixa alvo.
+
+Objetivo principal da operacao.
 
 ### Entre 5% e 7%
 
-Faixa ideal.
+Faixa aceitavel.
 
-Objetivo principal da operação.
-
----
+Permite operacao normal e planejamento de alocacao.
 
 ### Acima de 7%
 
-Capital considerado ocioso.
+Capital considerado potencialmente ocioso.
 
-O excedente poderá ser realocado.
-
----
-
-## Diversificação
-
-A Aivor busca evitar concentração excessiva em um único protocolo.
-
-Princípio:
-
-Nenhum protocolo deve representar dependência operacional absoluta da plataforma.
-
----
-
-## Protocolos Elegíveis
-
-Protocolos atualmente aprovados:
-
-- [[Morpho]]
-    
-- [[Aave]]
-    
-- [[Aerodrome]]
-    
-- [[Uniswap]]
-    
+O excedente pode ser realocado apenas se a politica de risco permitir e a governanca aprovar quando necessario.
 
 ---
 
 ## Rebalanceamentos
 
-A tesouraria poderá executar rebalanceamentos para:
+Rebalancear quando:
 
-- manter liquidez adequada
-    
-- reduzir riscos
-    
-- otimizar alocação
-    
-
-Ver:
-
-[[Tesouraria]]
+- liquidez estiver abaixo de 5% e houver condicao segura para recompor;
+- liquidez ficar acima de 7% por excesso de capital ocioso;
+- exposicao por protocolo ou mercado se aproximar do limite aprovado;
+- risco de protocolo aumentar;
+- APY ou utilizacao indicar anomalia;
+- governanca aprovar nova alocacao.
 
 ---
 
-## Emergências
+## Bloqueio de Novas Alocacoes
 
-Eventos considerados críticos:
+Parar novas alocacoes quando:
 
-- falha operacional relevante
-    
-- vulnerabilidade identificada
-    
-- risco de perda de patrimônio
-    
-- comportamento anormal de protocolo integrado
-    
+- liquidez cair abaixo de 2%;
+- protocolo integrado apresentar falha;
+- RPC ou leitura on-chain estiver inconsistente;
+- Safe ou Timelock estiver indisponivel para acoes criticas;
+- APY estiver anormal sem explicacao;
+- oracle ou fonte de preco apresentar erro;
+- divergencia banco vs on-chain for relevante.
 
 ---
 
-## Medidas de Emergência
+## Reducao de Exposicao
+
+Reduzir exposicao quando:
+
+- liquidez permanecer abaixo da faixa alvo;
+- utilizacao de mercado ficar excessiva;
+- risco de retirada aumentar;
+- protocolo perder confiabilidade;
+- auditoria ou monitoramento apontar vulnerabilidade;
+- governanca determinar reducao de risco.
+
+---
+
+## Limites
+
+Cada modulo, ativo, protocolo, mercado e estrategia deve possuir limite operacional antes de avancar para `limited_capital` ou `active`.
+
+Limites devem considerar:
+
+- exposicao maxima;
+- liquidez disponivel;
+- status do modulo;
+- risco do protocolo;
+- risco do ativo;
+- risco da estrategia;
+- auditoria exigida;
+- runbook de emergencia.
+
+Limites numericos especificos devem ser aprovados por governanca antes de capital real.
+
+---
+
+## Protocolos Elegiveis
+
+Protocolos contemplados na V1 Modular Completa:
+
+- [[Morpho]]
+- [[Aave]]
+- [[Aerodrome]]
+- [[Uniswap]]
+
+A inclusao na V1 nao significa ativacao simultanea.
+
+Cada protocolo deve evoluir por status conforme:
+
+- [[Politica de Risco]]
+- [[Aivor V1 Modular Completa]]
+
+---
+
+## Emergencias
+
+Eventos considerados criticos:
+
+- falha operacional relevante;
+- vulnerabilidade identificada;
+- risco de perda de patrimonio;
+- comportamento anormal de protocolo integrado;
+- falha de oracle;
+- risco de liquidacao;
+- divergencia grave entre banco e on-chain;
+- falha critica de Safe, Timelock ou RPC.
+
+---
+
+## Medidas de Emergencia
 
 Podem incluir:
 
-- suspensão temporária de novas alocações
-    
-- redução de exposição
-    
-- aumento de liquidez
-    
-- ativação dos mecanismos de emergência
-    
+- suspensao temporaria de novas alocacoes;
+- reducao de exposicao;
+- aumento de liquidez;
+- bloqueio de modulo;
+- ativacao de circuit breaker;
+- ativacao dos mecanismos de emergencia.
 
 Ver:
 
+- [[Politica de Risco]]
 - [[Emergency Pause]]
-    
 - [[Multisig]]
-    
 - [[Timelock]]
-    
 
 ---
 
-## Revisão
+## Revisao
 
-Os parâmetros operacionais poderão ser revisados conforme evolução da plataforma.
+Os parametros operacionais podem ser revisados conforme evolucao da plataforma.
 
-Qualquer alteração deve seguir os mecanismos definidos pela governança.
+Qualquer alteracao com impacto financeiro deve seguir os mecanismos definidos pela governanca.

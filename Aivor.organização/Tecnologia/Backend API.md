@@ -137,6 +137,30 @@ Essa autorizacao e operacional. Governanca Safe + Timelock permanece como camada
 
 ---
 
+### Governanca Operacional
+
+- `GET /governance/config`
+- `GET /governance/safe/status`
+- `GET /governance/proposals`
+- `GET /governance/proposals/:proposalId`
+- `POST /governance/proposals`
+- `POST /governance/proposals/:proposalId/approve`
+- `POST /governance/proposals/:proposalId/reject`
+- `POST /governance/proposals/:proposalId/cancel`
+- `POST /governance/proposals/:proposalId/ready`
+- `POST /governance/proposals/:proposalId/queue`
+- `POST /governance/proposals/:proposalId/execute-simulated`
+
+`POST /governance/proposals` exige papel `operator` ou `admin`.
+
+Acoes de aprovacao, rejeicao, cancelamento, fila e execucao simulada exigem `admin`.
+
+Nesta fase, a execucao e apenas simulada.
+
+O backend nao assina transacoes, nao cria transacoes reais no Safe e nao movimenta fundos.
+
+---
+
 ### Health Checks
 
 - `GET /health`
@@ -190,6 +214,25 @@ Politicas oficiais conectadas:
 `PRIVY_VERIFICATION_KEY` permanece como fallback opcional para validacao local direta.
 
 `PRIVY_APP_SECRET` deve permanecer apenas no backend.
+
+---
+
+## Variaveis de Ambiente de Governanca
+
+- `GOVERNANCE_MODE`
+- `SAFE_ADDRESS`
+- `SAFE_CHAIN_ID`
+- `SAFE_API_URL`
+- `TIMELOCK_ADDRESS`
+
+`GOVERNANCE_MODE` pode ser:
+
+- `simulated`;
+- `safe_readonly`.
+
+`safe_readonly` permite consulta basica do Safe quando `SAFE_API_URL` e `SAFE_ADDRESS` estiverem configurados.
+
+Nenhuma variavel habilita execucao real nesta fase.
 
 ---
 

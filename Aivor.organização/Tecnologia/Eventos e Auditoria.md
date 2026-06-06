@@ -36,9 +36,20 @@ Relaciona-se com:
 ### Governanca
 
 - propostas administrativas;
-- filas futuras de Safe;
-- operacoes futuras de Timelock;
+- filas simuladas de Timelock;
+- execucoes simuladas;
+- leituras Safe em modo read-only;
 - pausas de emergencia quando integradas.
+
+Eventos de auditoria da Fase 7:
+
+- `proposal.created`;
+- `proposal.approved`;
+- `proposal.rejected`;
+- `proposal.cancelled`;
+- `proposal.queued`;
+- `proposal.executed_simulated`;
+- `proposal.permission_denied`.
 
 Ver:
 
@@ -78,6 +89,8 @@ Camada criada:
 - `EventRepository`;
 - endpoints em `/operations/events`;
 - endpoints em `/operations/audit-logs`.
+- endpoints em `/governance/proposals`;
+- tabela `governance_proposals`.
 
 ---
 

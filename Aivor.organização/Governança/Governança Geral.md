@@ -1,75 +1,91 @@
-# Governança Geral
+# Governanca Geral
 
 ## Objetivo
 
-Definir o modelo de governança da Aivor.
+Definir o modelo de governanca da Aivor.
 
 Relaciona-se com:
 
 - [[Multisig]]
-    
 - [[Timelock]]
-    
-- [[Gestão de Permissões]]
-    
-- [[Processo de Atualização]]
-    
+- [[Gestao de Permissoes]]
+- [[Processo de Atualizacao]]
 
 ---
 
-## Princípio Fundamental
+## Principio Fundamental
 
 Nenhuma pessoa deve possuir controle absoluto sobre a plataforma.
 
 ---
 
-## Objetivos
+## Estrutura
 
-Garantir:
+A governanca e composta por:
 
-- segurança
-    
-- continuidade operacional
-    
-- transparência
-    
-- previsibilidade
-    
+- Safe multisig 2-of-4;
+- Timelock;
+- permissoes operacionais;
+- processos de atualizacao;
+- auditoria.
 
 ---
 
-## Estrutura
+## Fase Atual
 
-A governança é composta por:
+A Fase 7 implementa a governanca operacional em modo:
 
-- Multisig
-    
-- Timelock
-    
-- Permissões
-    
-- Processos de atualização
-    
+- `simulated`;
+- `safe_readonly`.
+
+O banco registra propostas, status, atores, timestamps e auditoria.
+
+O backend nao executa transacoes reais.
+
+---
+
+## Fluxo de Propostas
+
+Estados suportados:
+
+- `draft`;
+- `approved`;
+- `rejected`;
+- `cancelled`;
+- `ready`;
+- `queued`;
+- `executed_simulated`.
+
+Tipos suportados:
+
+- alteracao de parametro operacional;
+- atualizacao de endereco;
+- pausa operacional;
+- registro de decisao;
+- preparacao futura de transacao on-chain.
+
+---
+
+## Permissoes
+
+- `user`: nao cria nem altera propostas;
+- `operator`: pode criar proposta operacional;
+- `admin`: pode aprovar, rejeitar, cancelar, colocar em fila e executar simulacao.
 
 ---
 
 ## Escopo
 
-A governança controla:
+A governanca controla:
 
-- contratos
-    
-- parâmetros operacionais
-    
-- integrações
-    
-- tesouraria
-    
-- upgrades
-    
+- contratos;
+- parametros operacionais;
+- integracoes;
+- tesouraria;
+- upgrades.
 
 ---
 
 ## Prioridade
 
-A proteção patrimonial dos usuários possui prioridade máxima.
+A protecao patrimonial dos usuarios possui prioridade maxima.

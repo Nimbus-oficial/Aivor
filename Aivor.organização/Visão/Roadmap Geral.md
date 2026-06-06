@@ -1,184 +1,187 @@
-# ROADMAP GERAL
+# Roadmap Geral
 
 ## Objetivo
 
-Documentar a evolução estratégica da Aivor.
+Documentar a evolucao estrategica da Aivor.
 
-Este roadmap representa a visão interna da equipe.
+Este roadmap representa a visao interna da equipe.
 
 ---
 
-# Fase 01
+## Decisao da V1
 
-## Fundação
+Aivor V1 sera uma V1 Modular Completa, com ativacao progressiva por risco.
 
-Status: Concluído
+A V1 inclui:
+
+- USDC;
+- EURC;
+- ovUSDC;
+- Morpho;
+- Aave;
+- Uniswap;
+- Aerodrome;
+- Safe;
+- Timelock;
+- Painel Admin;
+- Governanca;
+- Liquidez;
+- Auditoria;
+- Looping;
+- Leverage;
+- Tesouraria;
+- estrategias automaticas.
+
+Nem todos os modulos serao ativados simultaneamente.
+
+A ordem de ativacao segue maturidade tecnica, risco operacional, auditoria e governanca.
+
+Referencia oficial:
+
+- [[Aivor V1 Modular Completa]]
+- [[Politica de Risco]]
+- [[Criterios de Ativacao de Estrategias]]
+
+---
+
+## Fase 01 - Fundacao
+
+Status: concluido.
 
 Objetivos:
 
-- definir marca
-    
-- definir produto
-    
-- definir arquitetura
-    
-- definir operação
-    
-- definir governança
-    
+- definir marca;
+- definir produto;
+- definir arquitetura;
+- definir operacao;
+- definir governanca.
 
 Resultado:
 
-Base estratégica construída.
+Base estrategica construida.
 
 ---
 
-# Fase 02
+## Fase 02 - Desenvolvimento
 
-## Desenvolvimento
-
-Status: Em andamento
+Status: em andamento.
 
 Objetivos:
 
-- frontend
-    
-- backend
-    
-- smart contracts
-    
-- infraestrutura
-    
+- frontend;
+- backend;
+- smart contracts;
+- infraestrutura;
+- arquitetura modular da V1.
 
 Resultado esperado:
 
-Produto funcional.
+Produto funcional com Core preparado e modulos estrategicos em status `documented`, `simulated` ou `read_only` conforme risco.
 
 ---
 
-# Fase 03
+## Fase 03 - Testes
 
-## Testes
-
-Status: Planejado
+Status: planejado.
 
 Objetivos:
 
-- validação técnica
-    
-- validação operacional
-    
-- testes internos
-    
+- validacao tecnica;
+- validacao operacional;
+- testes internos;
+- validacao progressiva por camada;
+- validacao dos status `testnet`, `limited_capital` e `active` quando aplicavel.
+- validacao da Politica de Risco, circuit breakers e criterios de ativacao.
+- validacao da Matriz de Risco por Mercado e limites por protocolo.
 
 Resultado esperado:
 
-Ambiente estável.
+Ambiente estavel e criterios objetivos para ativacao progressiva.
 
 ---
 
-# Fase 04
+## Fase 04 - Comunidade
 
-## Comunidade
-
-Status: Planejado
+Status: planejado.
 
 Objetivos:
 
-- crescimento da audiência
-    
-- crescimento da comunidade
-    
-- fortalecimento da marca
-    
+- crescimento da audiencia;
+- crescimento da comunidade;
+- fortalecimento da marca;
+- educacao sobre ativacao progressiva e riscos.
 
 Resultado esperado:
 
-Base inicial de usuários.
+Base inicial de usuarios e comunidade informada.
 
 ---
 
-# Fase 05
+## Fase 05 - Founding Members
 
-## Founding Members
-
-Status: Planejado
+Status: planejado.
 
 Objetivos:
 
-- acesso antecipado
-    
-- validação de experiência
-    
-- feedback
-    
+- acesso antecipado;
+- validacao de experiencia;
+- feedback;
+- uso controlado de modulos aprovados.
 
 Resultado esperado:
 
-Primeiros usuários reais.
+Primeiros usuarios reais dentro de limites definidos.
 
 ---
 
-# Fase 06
+## Fase 06 - Lancamento Publico
 
-## Lançamento Público
-
-Status: Planejado
+Status: planejado.
 
 Objetivos:
 
-- abertura ao mercado
-    
-- captação inicial
-    
-- crescimento orgânico
-    
+- abertura ao mercado;
+- captacao inicial;
+- crescimento organico;
+- operacao apenas dos modulos aprovados por governanca.
 
 Resultado esperado:
 
-Primeira operação pública.
+Primeira operacao publica com ativacao controlada por risco.
 
 ---
 
-# Fase 07
-
-## Consolidação
+## Fase 07 - Consolidacao
 
 Objetivos:
 
-- otimização do produto
-    
-- fortalecimento da marca
-    
-- expansão da comunidade
-    
+- otimizacao do produto;
+- fortalecimento da marca;
+- expansao da comunidade;
+- expansao gradual de modulos.
 
 ---
 
-# Fase 08
-
-## Escala
+## Fase 08 - Escala
 
 Objetivos:
 
-- crescimento internacional
-    
-- novas integrações
-    
-- novas funcionalidades
-    
+- crescimento internacional;
+- novas integracoes;
+- novas funcionalidades;
+- ativacao progressiva de estrategias conforme auditoria e governanca.
 
 ---
 
-# Filosofia
+## Filosofia
 
 A Aivor prioriza:
 
-Segurança.
-
-Experiência.
-
-Sustentabilidade.
+- seguranca;
+- experiencia;
+- sustentabilidade;
+- governanca;
+- auditabilidade.
 
 Antes de velocidade.
 
@@ -186,8 +189,9 @@ Antes de velocidade.
 
 ## Relacionamentos
 
-- [[Visão Geral]]
-    
-- [[Roadmap Público]]
-    
-- [[Estratégia de Lançamento]]
+- [[Visao Geral]]
+- [[Roadmap Publico]]
+- [[Estrategia de Lancamento]]
+- [[Aivor V1 Modular Completa]]
+- [[Politica de Risco]]
+- [[Matriz de Risco por Mercado]]

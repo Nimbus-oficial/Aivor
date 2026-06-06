@@ -7,3 +7,4 @@
 - [[Backend Sem Custódia]]
 - [[Ativos Suportados]]
 - [[Rebranding Aivor e Legado Orvex]]
+- [[Aivor V1 Modular Completa]]

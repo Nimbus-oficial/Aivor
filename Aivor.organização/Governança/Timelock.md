@@ -2,14 +2,13 @@
 
 ## Objetivo
 
-Adicionar um período de espera para alterações críticas.
+Adicionar periodo de espera para alteracoes criticas.
 
 Relaciona-se com:
 
 - [[Multisig]]
-    
+- [[Governança Geral]]
 - [[Processo de Atualização]]
-    
 
 ---
 
@@ -17,32 +16,39 @@ Relaciona-se com:
 
 Criar tempo para:
 
-- revisão
-    
-- auditoria
-    
-- detecção de erros
-    
+- revisao;
+- auditoria;
+- deteccao de erros;
+- resposta operacional.
 
 ---
 
-## Aplicação
+## Fase Atual
 
-Utilizado em:
+A Fase 7 implementa apenas fila simulada.
 
-- upgrades
-    
-- alterações de parâmetros
-    
-- mudanças estruturais
-    
+`POST /governance/proposals/:proposalId/queue` registra uma fila operacional simulada.
+
+`POST /governance/proposals/:proposalId/execute-simulated` registra uma execucao simulada.
+
+Nenhuma operacao e enviada on-chain nesta fase.
 
 ---
 
-## Benefícios
+## Aplicacao Futura
 
-- previsibilidade
-    
-- transparência
-    
-- segurança operacional
+Timelock real sera usado para:
+
+- upgrades;
+- alteracoes de parametros;
+- mudancas estruturais;
+- acoes criticas de seguranca.
+
+---
+
+## Beneficios
+
+- previsibilidade;
+- transparencia;
+- seguranca operacional;
+- tempo de revisao institucional.

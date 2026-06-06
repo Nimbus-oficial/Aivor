@@ -1,28 +1,30 @@
-# MANUAL DE EMERGÊNCIA
+# Manual de Emergencia
 
 ## Objetivo
 
 Definir procedimentos para resposta a incidentes operacionais.
 
+Complementa:
+
+- [[Politica de Risco]]
+- [[Circuit Breakers]]
+- [[Emergency Pause]]
+
 ---
 
-## Princípios
+## Principios
 
 ### Prioridade 1
 
-Proteção dos usuários.
-
----
+Protecao dos usuarios.
 
 ### Prioridade 2
 
-Preservação da operação.
-
----
+Preservacao da operacao.
 
 ### Prioridade 3
 
-Retorno seguro à normalidade.
+Retorno seguro a normalidade.
 
 ---
 
@@ -30,93 +32,94 @@ Retorno seguro à normalidade.
 
 ### Falhas de Infraestrutura
 
-- indisponibilidade
-    
-- falhas de serviços
-    
-
----
+- indisponibilidade;
+- falhas de servicos;
+- falha de RPC;
+- falha de banco;
+- divergencia banco vs on-chain.
 
 ### Falhas Operacionais
 
-- erros de configuração
-    
-- falhas humanas
-    
-
----
+- erros de configuracao;
+- falhas humanas;
+- limite ultrapassado;
+- proposta indevida.
 
 ### Falhas Externas
 
-- problemas em protocolos integrados
-    
-- eventos de mercado
-    
+- problemas em protocolos integrados;
+- eventos de mercado;
+- oracle instavel;
+- APY anormal;
+- liquidez insuficiente.
 
----
+### Eventos Criticos
 
-### Eventos Críticos
-
-- vulnerabilidades
-    
-- comportamentos anormais
-    
-- riscos sistêmicos
-    
+- vulnerabilidades;
+- comportamentos anormais;
+- riscos sistemicos;
+- risco de liquidacao;
+- exploit ou suspeita de exploit.
 
 ---
 
 ## Procedimento Geral
 
-Identificação
+1. Identificacao.
+2. Analise.
+3. Classificacao.
+4. Mitigacao.
+5. Monitoramento.
+6. Retorno operacional.
+7. Documentacao.
 
-↓
+---
 
-Análise
+## Severidade
 
-↓
+Usar os niveis definidos em:
 
-Classificação
+- [[Circuit Breakers]]
 
-↓
+Niveis:
 
-Mitigação
-
-↓
-
-Monitoramento
-
-↓
-
-Retorno operacional
-
-↓
-
-Documentação
+- atencao;
+- restricao;
+- mitigacao;
+- emergencia.
 
 ---
 
 ## Ferramentas
 
 - [[Emergency Pause]]
-    
 - [[Safe]]
-    
+- [[Timelock]]
 - [[Painel Administrativo]]
-    
+- [[Circuit Breakers]]
+
+---
+
+## Retorno a Normalidade
+
+Retornar apenas quando:
+
+- causa raiz foi identificada;
+- risco foi mitigado;
+- dados foram reconciliados;
+- governanca aprovou quando necessario;
+- auditoria foi registrada;
+- runbook foi atualizado.
 
 ---
 
 ## Relacionamentos
 
-- [[Gestão de Risco]]
-    
+- [[Gestao de Risco]]
 - [[Limites Operacionais]]
-    
-- [[Operação Geral]]
-    
+- [[Operacao Geral]]
 - [[Fluxos Operacionais]]
-    
+- [[Politica de Risco]]
 
 ---
 
@@ -126,4 +129,4 @@ Agir rapidamente.
 
 Comunicar claramente.
 
-Retornar à operação apenas quando houver segurança.
+Retornar a operacao apenas quando houver seguranca.

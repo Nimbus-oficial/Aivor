@@ -1,43 +1,112 @@
 # Aivor
 
-Aivor is a premium Web3 fintech experience that turns DeFi infrastructure into a simple USDC yield account.
+Aivor is a Web3 fintech project focused on making DeFi vault infrastructure easier to understand, monitor, and operate.
 
-The user experience must feel like a modern digital bank: clear balance, visible growth, instant withdrawal intent, and no blockchain jargon in the core product surface.
+The current product direction is a modular Aivor V1 with progressive activation by risk. The core path under private validation is:
 
-## Architecture
+`USDC -> Aivor Vault -> Morpho Allocator -> Morpho -> Aivor Vault -> USDC`
 
-- `apps/web`: Next.js app for the Aivor customer experience.
-- `apps/backend`: NestJS API for auth, users, analytics, notifications, AI support, security, and observability.
+This repository is not a public launch, production release, or invitation to deposit funds.
+
+## Current Status
+
+- Brand: Aivor, official handle `@aivorlabs`.
+- Vault token: `Aivor Yield USDC`.
+- Technical ticker: `ovUSDC`.
+- Model: non-rebasing ERC4626 yield-bearing shares.
+- Network used for private validation: Base Mainnet.
+- Governance model: Safe + timelock, production policy remains 2-of-4.
+- Backend: non-custodial operational layer.
+- Database: operational/audit layer, not the final financial source.
+- Final financial source: blockchain.
+
+The project is currently waiting for a timelock window before the next private Morpho validation step. Do not treat any private validation contracts or development wallets as production infrastructure.
+
+## Repository Structure
+
+- `apps/web`: public web experience and admin panel.
+- `apps/backend`: NestJS API for auth, operations, observability, governance, Morpho read-only data, and audit flows.
 - `packages/ui`: shared UI primitives.
 - `packages/types`: shared TypeScript contracts.
+- `packages/sdk`: frontend-facing SDK with safe fallbacks.
 - `packages/config`: shared configuration helpers.
-- `packages/sdk`: app-facing SDK for vault data and actions.
-- `contracts`: Solidity/Foundry vault system.
+- `contracts`: Solidity and Foundry contracts/scripts/tests.
+- `Aivor.organização`: official project vault and documentation source.
 
-## Product Rules
+## Product Principles
 
-- Users never see shares, ERC4626 internals, yield farming, staking, or protocol complexity.
-- The internal vault token is a non-rebasing ERC4626-style yield-bearing share token.
-- Technical share token: `ovUSDC`.
-- Technical share name: `Orvex Yield USDC`.
-- User value grows through share price appreciation: initially `1 ovUSDC = 1 USDC`; with yield, `1 ovUSDC > 1 USDC`.
-- Backend never controls funds.
-- Admins cannot withdraw user funds arbitrarily.
-- Smart contracts start non-upgradeable and prioritize safety.
-- MVP excludes NFTs, DAO, gamification, cards, multi-chain, copy trading, and trading.
+- Backend never custodies user funds.
+- The database is not the final source of financial truth.
+- Smart contracts control deposits, withdrawals, allocation, and accounting.
+- Admin flows must respect Safe, timelock, roles, limits, and auditability.
+- Public UX should explain Aivor without hiding DeFi risk.
+- No fixed yield promise.
 
-## Admin Architecture
+## Local Development
 
-Aivor follows a limited admin panel plus secure contracts model:
+Install dependencies:
 
-`Admin Panel -> OrvexController.sol -> OrvexVault.sol -> Morpho Markets`
+```powershell
+npm.cmd install
+```
 
-The admin panel is operational only. It can propose and execute authorized strategy changes, rebalance within contract limits, monitor vault state, and trigger emergency protections through Safe multisig and timelock rules. It must never custody funds, alter user shares, transfer user balances, or manually change user wealth.
+Run the web app:
 
-Critical operations are designed for Safe multisig, starting with the approved 2-of-4 policy. Strategy and vault configuration changes use timelock review windows. Emergency pause remains available for fast protection, while funds continue to move only through smart contracts.
+```powershell
+npm.cmd run dev --workspace @orvex/web
+```
 
-## Brand System
+Run the backend:
 
-- Primary font direction: Grotesk/Helvetica.
-- Core colors: `#15181A`, `#222529`, `#383B3E`, `#6F7174`, `#9C9D9F`, `#FFFFFF`.
-- Accent colors: `#2973FF`, `#5792FF`, `#C4DAFF`.
+```powershell
+npm.cmd run start:dev --workspace @orvex/backend
+```
+
+Run backend build and schema tests:
+
+```powershell
+npm.cmd run build --workspace @orvex/backend
+npm.cmd run test --workspace @orvex/backend
+```
+
+Run typechecks:
+
+```powershell
+npm.cmd run typecheck --workspace @orvex/types
+npm.cmd run typecheck --workspace @orvex/sdk
+npm.cmd run typecheck --workspace @orvex/web
+```
+
+Run contracts:
+
+```powershell
+forge build
+forge test
+```
+
+## Environment
+
+Use `.env.example` files as references. Do not commit `.env`, private keys, database URLs, Foundry cache, or sensitive broadcast artifacts.
+
+Important technical env names still use legacy `ORVEX_*` and `@orvex/*` package names for compatibility. These are intentional technical legacy identifiers and do not change the public brand.
+
+## Security And Risk
+
+Aivor is not production-ready until:
+
+- production wallets and credentials are rotated;
+- production Safe uses official signers;
+- Safe policy matches 2-of-4;
+- timelock operations are validated;
+- Morpho capital movement is validated with minimum capital;
+- external audit is completed;
+- public onboarding and risk disclosures are approved.
+
+## Roadmap
+
+1. Complete timelock execution for the private Morpho validation.
+2. Validate 1 USDC allocation and withdrawal through Morpho.
+3. Strengthen allocator monitoring, rollback, and emergency flows.
+4. Expand admin panel with real operational data.
+5. Keep Aave, Uniswap, Aerodrome, Looping, and Leverage inactive until their dedicated validation phases.
+

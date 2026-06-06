@@ -150,6 +150,134 @@ Nao.
 
 O que existe agora e a fundacao inicial do projeto. Pense nisso como a planta e a primeira estrutura de um predio, nao como o banco funcionando com dinheiro real.
 
+## Decisao oficial da V1
+
+A V1 da Aivor foi atualizada para uma V1 Modular Completa, com ativacao progressiva por risco.
+
+A arquitetura da V1 inclui USDC, EURC, ovUSDC, Morpho, Aave, Uniswap, Aerodrome, Safe, Timelock, Painel Admin, Governanca, Liquidez, Auditoria, Looping, Leverage, Tesouraria e estrategias automaticas.
+
+Isso nao significa que todos os modulos ficam ativos ao mesmo tempo.
+
+Cada modulo deve evoluir por status:
+
+- `documented`,
+- `simulated`,
+- `read_only`,
+- `testnet`,
+- `limited_capital`,
+- `active`,
+- `disabled`.
+
+Capital real exige testes, auditoria, limites operacionais e aprovacao de governanca conforme o risco do modulo.
+
+## Private Mainnet Validation
+
+Status: concluida.
+
+Esta validacao foi privada, nao publica, sem usuarios externos, sem captacao, sem Morpho real e sem mocks. O objetivo foi provar o fluxo tecnico minimo do ERC4626 em Base Mainnet com USDC real de valor minimo e carteira propria.
+
+Contratos da validacao privada:
+
+- Vault: `0x0Ad107434e35b91a72a98663696Fc73BAA19dc1E`
+- Controller: `0x6B1eC9fbdD4d935B569ea4732d15F1126a7e444b`
+- Treasury: `0xFC0D792D85aaA0F2a01E5a75a4b57900E5e5e3DD`
+- USDC Base: `0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913`
+- Validation wallet: `0x92987bd92929047449Df90040eED33D0Bd277624`
+
+Resultado validado:
+
+- deploy realizado em Base Mainnet;
+- vault funcional em `idleOnlyMode`;
+- `privateValidationMode` restringindo deposito a validation wallet;
+- deposit de `0,10 USDC` aprovado;
+- withdraw total aprovado;
+- share accounting aprovado;
+- `100000` unidades de ovUSDC emitidas e queimadas;
+- USDC recuperado integralmente;
+- `totalAssets` voltou para `0`;
+- `totalSupply` voltou para `0`;
+- `sharePrice` permaneceu em `1.000000`;
+- nenhum mock utilizado;
+- nenhuma integracao Morpho utilizada;
+- nenhum usuario externo participou.
+
+Transacoes da validacao:
+
+- Approve: `0xeadea88d236aae7070adf3734001ad612f119093a7929b1a07561a010afd9446`
+- Deposit: `0xc8c4517c0791e9f8fbac9ceb48677a506f2cc3bffdbb4aac53891097d8663e31`
+- Withdraw: `0x3100deb56cecd6abb7e36ae25990740a7ea41f177af40c9eedae23b242ccb17d`
+
+Riscos remanescentes:
+
+- a chave usada na validacao deve ser considerada dev-only e nao deve ser reutilizada para producao ou valores relevantes;
+- o pause operacional exige multisig e nao pode ser executado pela EOA de validacao;
+- os contratos provaram o fluxo idle-only, mas ainda nao provaram rendimento real, Morpho, rebalanceamento, filas de governanca reais ou operacao multiusuario;
+- os contratos da validacao privada nao devem ser tratados como deploy de producao.
+
+Licoes aprendidas:
+
+- o modo idle-only e suficiente para provar o fluxo ERC4626 minimo sem allocator;
+- o cap baixo e a validation wallet reduziram a superficie de uso publico;
+- scripts de validacao precisam separar teste de deposit/withdraw de acoes administrativas protegidas por multisig;
+- a proxima fase deve focar em adapter Morpho, limites e simulacao operacional antes de qualquer capital relevante.
+
+Contratos reaproveitaveis na proxima fase:
+
+- `OrvexVault` pode ser reaproveitado como base tecnica, preservando ERC4626 e revisando o caminho com allocator real;
+- `OrvexController` pode ser reaproveitado como base de governanca operacional;
+- `OrvexTreasury` pode ser reaproveitado como base simples, ainda sem tesouraria real;
+- os scripts private mainnet devem permanecer apenas como ferramenta de validacao privada, nao como deploy publico.
+
+Percentuais estimados apos a validacao:
+
+- Smart Contracts: 68%
+- Backend: 72%
+- Banco de Dados: 70%
+- Integracoes: 50%
+- Governanca: 58%
+- Painel Admin: 45%
+- Frontend publico: 35%
+- Observabilidade: 45%
+- Projeto Geral: 55%
+
+## Fase 10.3 - Morpho Market Approval, Staleness e Risk History
+
+Status: concluida operacionalmente com PostgreSQL remoto/Railway.
+
+Validado:
+
+- `GET /health/morpho` com Morpho real em Base;
+- `GET /morpho/markets` com dados reais da Morpho GraphQL API;
+- `GET /morpho/markets/:marketId` retornando detalhe de mercado e approval;
+- `GET /morpho/markets/:marketId/risk-history` retornando snapshots persistidos;
+- `POST /morpho/markets/:marketId/approve` com admin;
+- `POST /morpho/markets/:marketId/reject` com admin;
+- `POST /morpho/markets/:marketId/disable` com admin;
+- bloqueio de usuario comum com `403`;
+- auditoria persistida para approval, reject, disable, snapshot e permission denied;
+- tabelas `morpho_market_approvals` e `morpho_market_risk_snapshots` criadas;
+- staleness funcionando em `/health/morpho`;
+- backend build passando;
+- backend schema test passando;
+- typecheck de types, SDK e web passando.
+
+Resultado da migration:
+
+- `001_initial_schema.sql`: aplicado;
+- `002_privy_auth_foundation.sql`: aplicado;
+- `003_governance_proposals.sql`: aplicado;
+- `004_morpho_market_risk.sql`: aplicado.
+
+Resultado operacional:
+
+- approvals persistidos: `1`;
+- risk snapshots persistidos: `4`;
+- Morpho health: `ok`;
+- fonte: `real`;
+- chainId: `8453`;
+- stale: `false`;
+- fallback: `false`.
+
 Antes de qualquer uso real com fundos, ainda sao obrigatorios:
 
 - testes automatizados,
@@ -159,6 +287,40 @@ Antes de qualquer uso real com fundos, ainda sao obrigatorios:
 - deploy em testnet,
 - validacao operacional,
 - deploy controlado em producao.
+
+## Fase 10.9E - Novo conjunto Morpho-Controlled
+
+Status: implementado em codigo, sem deploy.
+
+A revisao Go/No-Go mostrou que o conjunto V1 privado nao deve receber capital no Morpho porque o Vault atual e `idleOnlyMode` e o Controller atual nao possui caminho governado para operar o allocator.
+
+Decisao aplicada: preparar novo conjunto V2:
+
+- `AivorVaultV2`;
+- `AivorControllerV2`;
+- `MorphoAllocatorV2`.
+
+Arquitetura V2:
+
+- Vault V2 conectado ao Allocator V2 desde o deploy;
+- Controller V2 com funcoes governadas para `setProtocolEnabled`, `setMarketEnabled`, `updateRiskData`, limites e emergencia;
+- Allocator V2 nasce desativado, sem market habilitado, sem capital e com limite inicial de `1 USDC`;
+- scripts privados separados para deploy e validacao read-only;
+- painel admin reconhece V1 idle-only e V2 morpho-controlled como conjuntos separados.
+
+Nada foi deployado nesta fase. Nenhum USDC foi movido, nenhum approve foi feito, nenhum supply foi executado e nenhum protocolo ou market foi ativado.
+
+Percentuais estimados apos a Fase 10.9E:
+
+- Smart Contracts: 76%;
+- Backend: 75%;
+- Banco de Dados: 70%;
+- Integracoes: 60%;
+- Governanca: 64%;
+- Painel Admin: 52%;
+- Frontend publico: 35%;
+- Observabilidade: 52%;
+- Projeto Geral: 61%.
 
 ## Resumo simples
 

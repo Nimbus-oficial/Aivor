@@ -1,75 +1,71 @@
-# SAFE
+# Safe
 
 ## Objetivo
 
-Fornecer segurança operacional através de multisig.
+Fornecer aprovacao institucional por multisig para a governanca operacional da Aivor.
 
 ---
 
-## O que é
+## Modelo Oficial
 
-Safe é a solução multisig utilizada pela Aivor.
+Safe 2-of-4.
 
----
+Participantes previstos:
 
-## Modelo Inicial
-
-2 de 4 assinaturas.
-
----
-
-## Participantes
-
-### CEO
-
-Representante institucional.
+- CEO;
+- Administrador operacional;
+- Diretor de risco e compliance;
+- Assinante backup.
 
 ---
 
-### Administrador
+## Fase Atual
 
-Operação diária.
+A Fase 7 implementa apenas:
 
----
-
-### Diretor de Risco e Compliance
-
-Supervisão de riscos.
-
----
-
-### Assinante Backup
-
-Redundância operacional.
+- configuracao do Safe;
+- leitura basica em modo `safe_readonly`;
+- validacao de endereco;
+- validacao de chainId quando RPC estiver disponivel;
+- associacao de propostas administrativas ao Safe configurado.
 
 ---
 
-## Utilização
+## Fora do Escopo Atual
 
-- aprovações críticas
-    
-- alterações estratégicas
-    
-- emergência
-    
-- governança
-    
+O backend nao:
+
+- cria transacoes reais no Safe;
+- assina transacoes;
+- executa operacoes on-chain;
+- movimenta fundos;
+- substitui a aprovacao institucional.
+
+---
+
+## Variaveis
+
+- `SAFE_ADDRESS`
+- `SAFE_CHAIN_ID`
+- `SAFE_API_URL`
+- `GOVERNANCE_MODE`
+
+`GOVERNANCE_MODE=safe_readonly` habilita consulta basica.
+
+`GOVERNANCE_MODE=simulated` mantem toda governanca em modo operacional simulado.
 
 ---
 
 ## Relacionamentos
 
 - [[Integrações]]
-    
 - [[Governança Geral]]
-    
+- [[Timelock]]
 - [[Mapeamento de Papéis]]
-    
 - [[Emergency Pause]]
-    
 
 ---
 
 ## Filosofia
 
-Nenhuma decisão crítica deve depender de uma única pessoa.
+Nenhuma decisao critica deve depender de uma unica pessoa.

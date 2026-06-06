@@ -1,168 +1,162 @@
-# ROADMAP PÚBLICO
+# Roadmap Publico
 
 ## Objetivo
 
-Apresentar a evolução da Aivor de forma transparente para usuários e comunidade.
+Apresentar a evolucao da Aivor de forma transparente para usuarios e comunidade.
 
 ---
 
-# Fase 01
+## Visao da V1
 
-## Fundação
+Aivor V1 e modular.
 
-Status: Concluído
+A arquitetura contempla:
+
+- USDC;
+- EURC;
+- ovUSDC;
+- Morpho;
+- Aave;
+- Uniswap;
+- Aerodrome;
+- Safe;
+- Timelock;
+- Painel Admin;
+- Governanca;
+- Liquidez;
+- Auditoria;
+- Looping;
+- Leverage;
+- Tesouraria;
+- estrategias automaticas.
+
+A ativacao publica e operacional dos modulos sera progressiva, conforme testes, seguranca, auditoria e governanca.
+
+Nem todo modulo documentado estara ativo para usuarios no primeiro momento.
+
+Referencia interna:
+
+- [[Aivor V1 Modular Completa]]
+
+---
+
+## Fase 01 - Fundacao
+
+Status: concluido.
 
 Entregas:
 
-- definição da marca
-    
-- arquitetura do produto
-    
-- estrutura operacional
-    
-- governança
-    
-- documentação estratégica
-    
+- definicao da marca;
+- arquitetura do produto;
+- estrutura operacional;
+- governanca;
+- documentacao estrategica.
 
 Ver:
 
 - [[Marca]]
-    
 - [[Arquitetura Geral]]
-    
-- [[Operação Geral]]
-    
+- [[Operacao Geral]]
 
 ---
 
-# Fase 02
+## Fase 02 - Desenvolvimento
 
-## Desenvolvimento
-
-Status: Em andamento
+Status: em andamento.
 
 Entregas:
 
-- frontend
-    
-- backend
-    
-- smart contracts
-    
-- integrações
-    
+- frontend;
+- backend;
+- smart contracts;
+- integracoes;
+- preparacao modular da V1.
 
 Ver:
 
 - [[Frontend]]
-    
 - [[Backend]]
-    
 - [[Smart Contracts]]
-    
 
 ---
 
-# Fase 03
+## Fase 03 - Ambiente de Testes
 
-## Ambiente de Testes
-
-Status: Planejado
+Status: planejado.
 
 Entregas:
 
-- testes internos
-    
-- validações operacionais
-    
-- revisão de segurança
-    
+- testes internos;
+- validacoes operacionais;
+- revisao de seguranca;
+- validacao dos modulos por status: `documented`, `simulated`, `read_only`, `testnet`, `limited_capital`, `active` ou `disabled`.
 
 Ver:
 
-- [[Segurança Técnica]]
-    
+- [[Seguranca Tecnica]]
 - [[Observabilidade]]
-    
 
 ---
 
-# Fase 04
+## Fase 04 - Founding Members
 
-## Founding Members
-
-Status: Planejado
+Status: planejado.
 
 Entregas:
 
-- acesso antecipado
-    
-- validação de experiência
-    
-- coleta de feedback
-    
+- acesso antecipado;
+- validacao de experiencia;
+- coleta de feedback;
+- operacao limitada aos modulos aprovados.
 
 Ver:
 
 - [[Founding Members]]
-    
 
 ---
 
-# Fase 05
+## Fase 05 - Lancamento Publico
 
-## Lançamento Público
-
-Status: Planejado
+Status: planejado.
 
 Entregas:
 
-- abertura ao público
-    
-- início das operações
-    
-- expansão da comunidade
-    
+- abertura ao publico;
+- inicio das operacoes;
+- expansao da comunidade;
+- ativacao publica somente de modulos aprovados por governanca.
 
 Ver:
 
-- [[Estratégia de Lançamento]]
-    
+- [[Estrategia de Lancamento]]
 
 ---
 
-# Fase 06
+## Fase 06 - Escala
 
-## Escala
-
-Status: Futuro
+Status: futuro.
 
 Entregas:
 
-- crescimento internacional
-    
-- expansão de funcionalidades
-    
-- novas integrações
-    
+- crescimento internacional;
+- expansao de funcionalidades;
+- novas integracoes;
+- ativacao progressiva de estrategias conforme risco.
 
 ---
 
-# Filosofia
+## Filosofia
 
 A Aivor evolui de forma gradual.
 
-Segurança, experiência e simplicidade possuem prioridade sobre velocidade.
+Seguranca, experiencia, simplicidade, auditoria e governanca possuem prioridade sobre velocidade.
 
 ---
 
 ## Relacionamentos
 
-- [[Estratégia de Lançamento]]
-    
+- [[Estrategia de Lancamento]]
 - [[STATUS GERAL]]
-    
 - [[Comunidade]]
-    
-- [[Visão do Produto]]
+- [[Visao do Produto]]
+- [[Aivor V1 Modular Completa]]
