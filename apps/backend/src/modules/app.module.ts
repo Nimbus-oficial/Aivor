@@ -2,9 +2,12 @@ import { Module } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
 import { StructuredLogger } from "../common/logging/structured-logger.service";
 import { AiModule } from "./ai/ai.module";
+import { AllocatorModule } from "./allocator/allocator.module";
 import { AnalyticsModule } from "./analytics/analytics.module";
 import { AuthModule } from "./auth/auth.module";
 import { DatabaseModule } from "./database/database.module";
+import { GovernanceModule } from "./governance/governance.module";
+import { MorphoModule } from "./morpho/morpho.module";
 import { NotificationModule } from "./notification/notification.module";
 import { ObservabilityModule } from "./observability/observability.module";
 import { OperationsModule } from "./operations/operations.module";
@@ -17,6 +20,9 @@ import { VaultModule } from "./vault/vault.module";
     ConfigModule.forRoot({ isGlobal: true }),
     DatabaseModule,
     AuthModule,
+    GovernanceModule,
+    MorphoModule,
+    AllocatorModule,
     UserModule,
     VaultModule,
     AnalyticsModule,

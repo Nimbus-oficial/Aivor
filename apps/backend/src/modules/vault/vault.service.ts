@@ -43,7 +43,7 @@ export class VaultService {
 
     return {
       shareToken: {
-        name: "Orvex Yield USDC",
+        name: "Aivor Yield USDC",
         ticker: "ovUSDC",
         model: "erc4626-share-price",
         rebasing: false
@@ -80,7 +80,7 @@ export class VaultService {
         vaultAddress: snapshot.vaultAddress,
         assetAddress: snapshot.assetAddress,
         shareToken: {
-          name: "Orvex Yield USDC",
+          name: "Aivor Yield USDC",
           ticker: "ovUSDC",
           model: "erc4626-share-price",
           rebasing: false
@@ -115,7 +115,7 @@ export class VaultService {
       idleLiquidityTarget: "5%",
       dataSource: "mock",
       shareToken: {
-        name: "Orvex Yield USDC",
+        name: "Aivor Yield USDC",
         ticker: "ovUSDC",
         model: "erc4626-share-price",
         rebasing: false

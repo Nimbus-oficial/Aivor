@@ -3,6 +3,9 @@ import { DatabaseService } from "./database.service";
 import { AdminRecordRepository } from "./repositories/admin-record.repository";
 import { AuditRepository } from "./repositories/audit.repository";
 import { EventRepository } from "./repositories/event.repository";
+import { GovernanceProposalRepository } from "./repositories/governance-proposal.repository";
+import { MorphoMarketApprovalRepository } from "./repositories/morpho-market-approval.repository";
+import { MorphoRiskSnapshotRepository } from "./repositories/morpho-risk-snapshot.repository";
 import { OperationalSettingsRepository } from "./repositories/operational-settings.repository";
 import { PositionSnapshotRepository } from "./repositories/position-snapshot.repository";
 import { SessionRepository } from "./repositories/session.repository";
@@ -16,6 +19,9 @@ import { OperationalSettingsService } from "./services/operational-settings.serv
     UserRepository,
     AuditRepository,
     EventRepository,
+    GovernanceProposalRepository,
+    MorphoMarketApprovalRepository,
+    MorphoRiskSnapshotRepository,
     AdminRecordRepository,
     OperationalSettingsRepository,
     PositionSnapshotRepository,
@@ -28,6 +34,9 @@ import { OperationalSettingsService } from "./services/operational-settings.serv
     UserRepository,
     AuditRepository,
     EventRepository,
+    GovernanceProposalRepository,
+    MorphoMarketApprovalRepository,
+    MorphoRiskSnapshotRepository,
     AdminRecordRepository,
     OperationalSettingsRepository,
     PositionSnapshotRepository,

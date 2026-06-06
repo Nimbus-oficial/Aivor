@@ -17,6 +17,21 @@ export type EventCategory =
 
 export type RecordResult = "success" | "failure" | "pending";
 export type UserRole = "user" | "operator" | "admin";
+export type GovernanceMode = "simulated" | "safe_readonly";
+export type GovernanceProposalType =
+  | "operational_parameter_change"
+  | "address_update"
+  | "operational_pause"
+  | "decision_record"
+  | "future_onchain_transaction";
+export type GovernanceProposalStatus =
+  | "draft"
+  | "approved"
+  | "rejected"
+  | "cancelled"
+  | "ready"
+  | "queued"
+  | "executed_simulated";
 
 export interface AuditLogInput {
   actorUserId?: string | null;

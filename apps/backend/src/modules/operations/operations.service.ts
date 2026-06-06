@@ -40,7 +40,7 @@ export class OperationsService {
       supportedAssets: ["USDC", "EURC"],
       enabledProtocols: ["Morpho"],
       shareToken: {
-        name: "Orvex Yield USDC",
+        name: "Aivor Yield USDC",
         ticker: "ovUSDC",
         model: "ERC4626 yield-bearing share",
         rebasing: false
