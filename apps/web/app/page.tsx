@@ -1,175 +1,152 @@
 import {
-  ArrowDownToLine,
-  ArrowUpRight,
-  Bell,
-  ChartPie,
+  ArrowRight,
+  BarChart3,
   CircleDollarSign,
-  Eye,
-  Settings,
+  FileText,
+  LockKeyhole,
   ShieldCheck,
-  UserRound,
+  Sparkles,
   WalletCards
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { Button } from "@orvex/ui";
-import { getAccountOverviewFromApi } from "@orvex/sdk";
 
-const activity = [
-  { title: "Rendimento creditado", amount: "+US$ 12,84", date: "Hoje" },
-  { title: "Deposito recebido", amount: "+US$ 800,00", date: "Ontem" },
-  { title: "Saque concluido", amount: "-US$ 150,00", date: "12 mai" }
+const pillars: Array<{
+  title: string;
+  text: string;
+  icon: LucideIcon;
+}> = [
+  {
+    title: "Vault USDC",
+    text: "Aivor organiza depósitos em USDC em um vault ERC4626, com saldo apresentado em linguagem simples.",
+    icon: CircleDollarSign
+  },
+  {
+    title: "Auto-custódia",
+    text: "O backend não guarda chaves privadas e não controla fundos. Movimentação financeira acontece em contratos.",
+    icon: WalletCards
+  },
+  {
+    title: "Governança operacional",
+    text: "Safe, timelock, limites e auditoria reduzem o risco de decisões administrativas apressadas.",
+    icon: ShieldCheck
+  },
+  {
+    title: "Transparência",
+    text: "Status, contratos, mercados e riscos devem ser visíveis antes de qualquer ativação com capital.",
+    icon: FileText
+  }
 ];
 
-const navigationItems: Array<[string, LucideIcon]> = [
-  ["Deposito", CircleDollarSign],
-  ["Rendimentos", ArrowUpRight],
-  ["Seguranca", ShieldCheck],
-  ["Portfolio", ChartPie],
-  ["Liquidez", WalletCards],
-  ["Perfil", UserRound],
-  ["Alertas", Bell],
-  ["Configuracoes", Settings]
+const statuses = [
+  ["Vault V2", "deploy privado"],
+  ["Morpho", "controle progressivo"],
+  ["Safe", "timelock em espera"],
+  ["Capital", "não público"]
 ];
 
-export default async function HomePage() {
-  const overview = await getAccountOverviewFromApi(process.env.ORVEX_API_URL);
-
+export default function LandingPage() {
   return (
-    <main className="min-h-screen px-4 py-4 text-white sm:px-8 lg:px-10">
-      <div className="mx-auto grid max-w-7xl gap-4 lg:grid-cols-[17rem_1fr]">
-        <aside className="hidden min-h-[calc(100vh-2rem)] flex-col justify-between rounded-lg border border-line bg-graphite/45 p-4 shadow-calm lg:flex">
-          <div>
-            <div className="mb-9 flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-md border border-blue/50 bg-blue/10 text-azure shadow-glow">
-                <ShieldCheck size={18} />
-              </div>
-              <div>
-                <p className="text-lg font-bold leading-none">Aivor</p>
-                <p className="mt-1 text-xs text-silver">Conta global</p>
-              </div>
+    <main className="min-h-screen text-white">
+      <section className="mx-auto flex min-h-screen max-w-7xl flex-col px-5 py-6 sm:px-8 lg:px-10">
+        <header className="flex items-center justify-between gap-4 border-b border-line pb-5">
+          <div className="flex items-center gap-3">
+            <div className="flex h-10 w-10 items-center justify-center rounded-md border border-blue/50 bg-blue/10 text-azure shadow-glow">
+              <Sparkles size={18} />
             </div>
-            <nav className="grid grid-cols-2 gap-3">
-              {navigationItems.map(([label, Icon]) => (
-                <button
-                  className="flex aspect-square flex-col items-center justify-center gap-3 rounded-lg border border-line bg-ink/70 text-center text-[0.68rem] font-bold uppercase tracking-[0.22em] text-silver transition hover:border-blue/70 hover:text-white"
-                  key={label}
-                >
-                  <Icon className="text-blue" size={24} strokeWidth={1.8} />
-                  <span>{label}</span>
-                </button>
-              ))}
-            </nav>
+            <div>
+              <p className="text-lg font-bold leading-none">Aivor</p>
+              <p className="mt-1 text-xs text-silver">@aivorlabs</p>
+            </div>
           </div>
-          <div className="rounded-md border border-blue/30 bg-blue/10 p-3">
-            <div className="mb-2 flex items-center gap-2 text-sm font-bold">
-              <ShieldCheck size={16} />
-              Protecao ativa
+          <a
+            className="rounded-md border border-line px-3 py-2 text-sm font-bold text-silver transition hover:border-blue/70 hover:text-white"
+            href="/admin"
+          >
+            Admin
+          </a>
+        </header>
+
+        <div className="grid flex-1 items-center gap-10 py-12 lg:grid-cols-[1.05fr_0.95fr]">
+          <div>
+            <div className="mb-5 inline-flex items-center gap-2 rounded-md border border-blue/35 bg-blue/10 px-3 py-2 text-sm font-bold text-ice">
+              <LockKeyhole size={16} />
+              Validação privada em andamento
             </div>
-            <p className="text-xs leading-5 text-ice">
-              Saques e estrategias passam por limites operacionais em contrato.
+            <h1 className="max-w-4xl text-5xl font-bold leading-[1.03] sm:text-6xl lg:text-7xl">
+              Infraestrutura DeFi com experiência de fintech.
+            </h1>
+            <p className="mt-6 max-w-2xl text-lg leading-8 text-silver">
+              Aivor transforma um vault de USDC em uma experiência simples para
+              acompanhar saldo, liquidez, governança e crescimento patrimonial,
+              sem esconder que o produto opera sobre contratos e riscos DeFi.
+            </p>
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+              <Button className="h-12">
+                Entrar na comunidade
+                <ArrowRight size={18} />
+              </Button>
+              <Button className="h-12" variant="secondary">
+                Ver transparência
+              </Button>
+            </div>
+            <p className="mt-5 max-w-2xl text-sm leading-6 text-muted">
+              Aivor não promete rendimento fixo. Estratégias são ativadas
+              progressivamente conforme testes, governança, limites e auditoria.
             </p>
           </div>
-        </aside>
 
-        <section className="space-y-4">
-          <header className="flex items-center justify-between rounded-lg border border-line bg-graphite/45 px-4 py-3 shadow-calm">
-            <div>
-              <p className="text-sm text-silver">Boa tarde, Ana</p>
-              <h1 className="text-xl font-bold">Sua conta Aivor</h1>
-            </div>
-            <button
-              aria-label="Mostrar ou ocultar saldo"
-              className="flex h-10 w-10 items-center justify-center rounded-md border border-line text-silver transition hover:border-blue/70 hover:text-white"
-            >
-              <Eye size={18} />
-            </button>
-          </header>
-
-          <div className="grid gap-4 xl:grid-cols-[1.35fr_0.65fr]">
-            <section className="rounded-lg border border-line bg-graphite/55 p-5 shadow-calm sm:p-7">
-              <div className="mb-8 flex items-start justify-between gap-4">
+          <div className="grid gap-4">
+            <section className="rounded-lg border border-line bg-graphite/60 p-5 shadow-calm">
+              <div className="flex items-center justify-between gap-4">
                 <div>
-                  <p className="text-sm text-silver">Saldo total</p>
-                  <p className="mt-2 text-4xl font-bold tracking-normal sm:text-5xl">
-                    {overview.balanceUsd}
-                  </p>
+                  <p className="text-sm text-silver">Vault</p>
+                  <h2 className="mt-1 text-2xl font-bold">Aivor Yield USDC</h2>
                 </div>
-                <div className="rounded-md border border-blue/40 bg-blue/10 px-3 py-2 text-sm font-bold text-ice">
-                  {overview.monthlyGrowth}
+                <div className="rounded-md border border-blue/40 bg-blue/10 px-3 py-2 text-xs font-bold uppercase tracking-[0.16em] text-ice">
+                  ovUSDC
                 </div>
               </div>
-
-              <div className="grid gap-3 sm:grid-cols-3">
-                <div className="rounded-md border border-line bg-ink/50 p-4">
-                  <p className="text-sm text-silver">Rendimento</p>
-                  <p className="mt-2 text-2xl font-bold">
-                    {overview.earningsUsd}
-                  </p>
-                </div>
-                <div className="rounded-md border border-line bg-ink/50 p-4">
-                  <p className="text-sm text-silver">Crescimento</p>
-                  <p className="mt-2 text-2xl font-bold">
-                    {overview.growthLabel}
-                  </p>
-                </div>
-                <div className="rounded-md border border-line bg-ink/50 p-4">
-                  <p className="text-sm text-silver">Disponivel</p>
-                  <p className="mt-2 text-2xl font-bold">Agora</p>
-                </div>
-              </div>
-
-              <div className="mt-7 flex flex-col gap-3 sm:flex-row">
-                <Button className="h-12 flex-1">
-                  <ArrowDownToLine size={18} />
-                  Adicionar saldo
-                </Button>
-                <Button className="h-12 flex-1" variant="secondary">
-                  <ArrowUpRight size={18} />
-                  Sacar
-                </Button>
+              <div className="mt-6 grid gap-3 sm:grid-cols-2">
+                {statuses.map(([label, value]) => (
+                  <div className="rounded-md border border-line bg-ink/55 p-4" key={label}>
+                    <p className="text-xs font-bold uppercase tracking-[0.16em] text-silver">
+                      {label}
+                    </p>
+                    <p className="mt-2 font-bold">{value}</p>
+                  </div>
+                ))}
               </div>
             </section>
 
-            <section className="rounded-lg border border-blue/30 bg-blue/10 p-5 text-white shadow-glow">
-              <div className="mb-8 flex h-11 w-11 items-center justify-center rounded-md border border-blue/50 text-azure">
-                <ShieldCheck size={20} />
+            <section className="rounded-lg border border-blue/30 bg-blue/10 p-5 shadow-glow">
+              <div className="flex items-start gap-4">
+                <BarChart3 className="mt-1 text-azure" size={22} />
+                <div>
+                  <h2 className="text-xl font-bold">Ativação por risco</h2>
+                  <p className="mt-3 leading-7 text-ice">
+                    Core, estratégias e estratégias avançadas existem na
+                    arquitetura, mas cada módulo progride por status:
+                    documented, simulated, read_only, limited_capital e active.
+                  </p>
+                </div>
               </div>
-              <p className="text-sm text-ice">Seguranca</p>
-              <h2 className="mt-2 text-2xl font-bold">
-                Infraestrutura protegida
-              </h2>
-              <p className="mt-3 text-sm leading-6 text-ice">
-                Fundos movimentados somente por contratos, com controles
-                administrativos limitados.
-              </p>
-              <Button className="mt-8 w-full" variant="secondary">
-                Ver status
-              </Button>
             </section>
           </div>
+        </div>
+      </section>
 
-          <section className="rounded-lg border border-line bg-graphite/45 p-5 shadow-calm">
-            <div className="mb-4 flex items-center justify-between">
-              <h2 className="text-lg font-bold">Atividades</h2>
-              <button className="text-sm font-bold text-azure">Ver todas</button>
-            </div>
-            <div className="divide-y divide-line">
-              {activity.map((item) => (
-                <div
-                  className="flex items-center justify-between gap-4 py-4"
-                  key={item.title}
-                >
-                  <div>
-                    <p className="font-medium">{item.title}</p>
-                    <p className="mt-1 text-sm text-silver">{item.date}</p>
-                  </div>
-                  <p className="font-bold">{item.amount}</p>
-                </div>
-              ))}
-            </div>
-          </section>
-        </section>
-      </div>
+      <section className="border-t border-line bg-ink/50 px-5 py-14 sm:px-8 lg:px-10">
+        <div className="mx-auto grid max-w-7xl gap-4 md:grid-cols-2 xl:grid-cols-4">
+          {pillars.map(({ title, text, icon: Icon }) => (
+            <article className="rounded-lg border border-line bg-graphite/55 p-5" key={title}>
+              <Icon className="text-blue" size={24} />
+              <h2 className="mt-5 text-xl font-bold">{title}</h2>
+              <p className="mt-3 text-sm leading-6 text-silver">{text}</p>
+            </article>
+          ))}
+        </div>
+      </section>
     </main>
   );
 }

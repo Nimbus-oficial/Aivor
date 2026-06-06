@@ -4,7 +4,7 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: "Aivor",
-  description: "Conta rendimento em USDC com experiencia de banco digital."
+  description: "Infraestrutura DeFi com experiencia de fintech, auto-custodia e governanca auditavel."
 };
 
 export default function RootLayout({
